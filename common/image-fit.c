@@ -1712,7 +1712,7 @@ int fit_conf_get_prop_node(const void *fit, int noffset,
 static int fit_image_select(const void *fit, int rd_noffset, int verify)
 {
 	fit_image_print(fit, rd_noffset, "   ");
-
+#if 0
 	if (verify) {
 		puts("   Verifying Hash Integrity ... ");
 		if (!fit_image_verify(fit, rd_noffset)) {
@@ -1721,7 +1721,7 @@ static int fit_image_select(const void *fit, int rd_noffset, int verify)
 		}
 		puts("OK\n");
 	}
-
+#endif
 	return 0;
 }
 
@@ -1849,7 +1849,7 @@ int fit_image_load(bootm_headers_t *images, ulong addr,
 		/* Remember this config */
 		if (image_type == IH_TYPE_KERNEL)
 			images->fit_uname_cfg = fit_base_uname_config;
-
+#if 0
 		if (IMAGE_ENABLE_VERIFY && images->verify) {
 			puts("   Verifying Hash Integrity ... ");
 			if (fit_config_verify(fit, cfg_noffset)) {
@@ -1860,7 +1860,7 @@ int fit_image_load(bootm_headers_t *images, ulong addr,
 			}
 			puts("OK\n");
 		}
-
+#endif
 		bootstage_mark(BOOTSTAGE_ID_FIT_CONFIG);
 
 		noffset = fit_conf_get_prop_node(fit, cfg_noffset,
