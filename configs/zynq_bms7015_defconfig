@@ -20,7 +20,7 @@ CONFIG_SYS_CPU="armv7"
 CONFIG_SYS_SOC="zynq"
 CONFIG_SYS_VENDOR="xilinx"
 CONFIG_SYS_BOARD="zynq"
-CONFIG_SYS_CONFIG_NAME="zynq_bmu7015"
+CONFIG_SYS_CONFIG_NAME="zynq_bms7015"
 
 #
 # ARM architecture
