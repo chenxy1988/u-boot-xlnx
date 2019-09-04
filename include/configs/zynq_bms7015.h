@@ -54,13 +54,13 @@
 	"scanmmc=setenv devtype mmc; setenv devnum 0; run scandev; setenv devnum 1; run scandev;\0" \
 	"emmcboot=setenv devtype mmc; setenv devnum 1; run scandev \0" \
 	"qspiboot=echo QSPI Boot Mode; run scanusb || run emmcboot \0" \
-	"sdboot=echo SDCARD Boot Mode; setenv devtype mmc; setenv devnum 0; run scandev \0" \
+	"sdboot=echo SDCARD Boot Mode; prefix; setenv devtype mmc; setenv devnum 0; run scandev \0" \
 	"scandev=echo [INFO] Scanning ${devtype} ${devnum}...; && " \
 		"if $devtype dev $devnum; then " \
                         "run uenvboot; " \
 			"echo [INFO] Trying to boot from $devtype $devnum; " \
 			"run loadkernel && run loaddtb && run fpga_loadbit; " \
-			"run check_ramdisk && run baseargs && echo ${bootargs} && run tryboot; " \
+			"run check_ramdisk && run baseargs && echo ${bootargs} && run tryboot; sleep 5; reset;" \
 		"fi; \0" \
 		BOOTENV
 #endif
