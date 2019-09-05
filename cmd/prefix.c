@@ -118,8 +118,8 @@ static int search_prefix()
 		prefix->counter++;
 	}
 
-	sprintf(name,"uImage%d\n",bank->current);
-	env_set("kernel_image", name);
+	sprintf(name,"0:%d",(bank->current+2));
+	env_set("devnum", name);
 	fs_set_blk_dev("mmc","0",FS_TYPE_ANY);
 	fs_write(PREFIX_NAME,prefix,0,sizeof(PREFIX_T),&len_read);
 
