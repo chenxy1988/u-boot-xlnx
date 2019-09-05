@@ -20,6 +20,7 @@
 #define PREFIX_LOAD_ADDR	0x2000000
 #define BANK_LOAD_ADDR	0x2000100
 #define BANK_DATA_NAME	"bank.bin"
+#define DEBUG_INFO	1
 
 
 typedef struct prefix_s{
@@ -48,14 +49,20 @@ static int search_prefix()
 	loff_t len_read = 0;
 	char name[16];
 
+#ifdef DEBUG_INFO
 	printf("Starting search prefix prefix addr = %x,bankaddr = %x... \n",prefix,bank);
+#endif
 	memset(prefix,0x0,sizeof(PREFIX_T));
 	fs_set_blk_dev("mmc","0",FS_TYPE_ANY);
 	ret = fs_read(PREFIX_NAME,prefix,0,sizeof(PREFIX_T),&len_read);
+#ifdef DEBUG_INFO
 	printf("debug = %d magic_head = %x,magic_tail = %x,counter = %d,reason = %d \n",prefix->debug_mode,prefix->magic_head,\
 		prefix->magic_tail,prefix->counter,prefix->reboot_reason);
-	if((prefix->magic_head != MAGIC_HEAD) || (prefix->magic_tail != MAGIC_TAIL)){ 
+#endif
+	if((prefix->magic_head != MAGIC_HEAD) || (prefix->magic_tail != MAGIC_TAIL)){
+#ifdef DEBUG_INFO
 		printf("=======No prefix header found,create a new one \n");
+#endif
 		prefix->magic_head = MAGIC_HEAD;
 		prefix->magic_tail = MAGIC_TAIL;
 		prefix->counter = 1;
@@ -65,13 +72,19 @@ static int search_prefix()
 		}
 	}
 
+#ifdef DEBUG_INFO
 	printf("Searching available bank \n");
+#endif
 	memset(bank,0x0,sizeof(BANK_T));
 	fs_set_blk_dev("mmc","0",FS_TYPE_ANY);
 	ret = fs_read(BANK_DATA_NAME,bank,0,sizeof(BANK_T),&len_read);
+#ifdef DEBUG_INFO
 	printf("bank magic head = %x,magic tail = %x,current = %d\n",bank->magic_head,bank->magic_tail,bank->current);
+#endif
 	if((bank->magic_head != MAGIC_HEAD) || (bank->magic_tail != MAGIC_TAIL)){
+#ifdef DEBUG_INFO
 		printf("Creating bank data \n");
+#endif
 		bank->magic_head = MAGIC_HEAD;
 		bank->magic_tail = MAGIC_TAIL;
 		bank->current = 0;
@@ -84,15 +97,19 @@ static int search_prefix()
 	if(prefix->counter > MAX_COUNT){
 		if(prefix->debug_mode == 1){
 			printf("Debug mode, cancel to switch \n");
+			prefix->counter = 0;
 		}else{
+#ifdef DEBUG_INFO
 			printf("Switching current bank from %d ",bank->current);
+#endif
 			if(bank->current == 0){
 				bank->current = 1;
 			}else{
 				bank->current = 0;
 			}
-
+#ifdef DEBUG_INFO
 			printf("to %d \n",bank->current);
+#endif
 			prefix->counter = 0;
 			fs_set_blk_dev("mmc","0",FS_TYPE_ANY);
 			fs_write(BANK_DATA_NAME,bank,0,sizeof(BANK_T),&len_read);

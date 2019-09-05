@@ -1731,6 +1731,11 @@ config CMD_FS_UUID
 	help
 	  Enables fsuuid command for filesystem UUID.
 
+config CMD_PREFIX
+	bool "the boot prefix for dualbank support"
+	help
+	  Enables dualbank support for BMS system
+
 config CMD_JFFS2
 	bool "jffs2 command"
 	select FS_JFFS2
