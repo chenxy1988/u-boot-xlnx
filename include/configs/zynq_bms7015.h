@@ -39,7 +39,7 @@
 	"mmc0_root=setenv root /dev/mmcblk0p2\0" \
 	"mmc1_root=setenv root /dev/mmcblk1p2\0" \
 	"console=console=ttyPS0,115200 earlyprintk\0" \
-	"baseargs=setenv bootargs ${console} root=${root} rw rootfstype=ext4 rootwait ${optargs}\0" \
+	"baseargs=setenv bootargs ${console} root=${root} rw rootfstype=squashfs rootwait ${optargs}\0" \
 	"loadkernel=load ${devtype} ${devnum} ${kernel_load_address} ${kernel_image}\0" \
 	"loaddtb=load ${devtype} ${devnum} ${devicetree_load_address} ${devicetree_image}\0" \
 	"loadinitrd=load ${devtype} ${devnum} ${ramdisk_load_address} ${ramdisk_image}\0" \

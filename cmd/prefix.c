@@ -47,7 +47,7 @@ static int search_prefix()
 	PREFIX_T *prefix = (PREFIX_T *)prefix_buf;
 	BANK_T *bank =(BANK_T *)bank_buf;
 	loff_t len_read = 0;
-	char name[16];
+	char name[32];
 
 #ifdef DEBUG_INFO
 	printf("Starting search prefix prefix addr = %x,bankaddr = %x... \n",prefix,bank);
@@ -118,8 +118,20 @@ static int search_prefix()
 		prefix->counter++;
 	}
 
-	sprintf(name,"0:%d",(bank->current+2));
+	sprintf(name,"0:2");
 	env_set("devnum", name);
+
+	memset(name,0x0,sizeof(name));
+	sprintf(name,"uImage%d",bank->current);
+	env_set("kernel_image",name);
+
+	sprintf(name,"devicetree%d.dtb",bank->current);
+	env_set("devicetree_image",name);
+
+	memset(name,0x0,sizeof(name));
+	sprintf(name,"/dev/mmcblk0p%d",bank->current+3);
+	env_set("root",name);
+
 	fs_set_blk_dev("mmc","0",FS_TYPE_ANY);
 	fs_write(PREFIX_NAME,prefix,0,sizeof(PREFIX_T),&len_read);
 
