@@ -12,6 +12,17 @@
 #include <asm/io.h>
 #include <vsprintf.h>
 #include <fs.h>
+#include <dm/uclass.h>
+#include <fdtdec.h>
+#include <fpga.h>
+#include <malloc.h>
+#include <mmc.h>
+#include <watchdog.h>
+#include <wdt.h>
+#include <zynqpl.h>
+#include <asm/arch/hardware.h>
+#include <asm/arch/sys_proto.h>
+
 
 #define MAGIC_HEAD 0xff0055aa
 #define MAGIC_TAIL 0xff55aa00
@@ -128,8 +139,22 @@ static int search_prefix()
 	sprintf(name,"devicetree%d.dtb",bank->current);
 	env_set("devicetree_image",name);
 
+
 	memset(name,0x0,sizeof(name));
 	sprintf(name,"/dev/mmcblk0p%d",bank->current+3);
+#if 0
+        switch ((zynq_slcr_get_boot_mode()) & ZYNQ_BM_MASK) {
+        case ZYNQ_BM_QSPI:
+		sprintf(name,"/dev/mmcblk1p%d",bank->current+3);
+                break;
+        case ZYNQ_BM_SD:
+		sprintf(name,"/dev/mmcblk0p%d",bank->current+3);
+                break;
+        default:
+		sprintf(name,"/dev/mmcblk0p%d",bank->current+3);
+                break;
+        }
+#endif
 	env_set("root",name);
 
 	fs_set_blk_dev("mmc","0",FS_TYPE_ANY);

@@ -9,7 +9,7 @@
                 ethernet0 = &gem0;
                 serial0 = &uart1;
                 spi0 = &qspi;
-                mmc0 = &sdhci0;
+                mmc0 = &sdhci1;
         };
 
         memory@0 {
@@ -56,7 +56,7 @@
         };
 };
 
-&sdhci0 {
+&sdhci1 {
         u-boot,dm-pre-reloc;
         status = "okay";
 };

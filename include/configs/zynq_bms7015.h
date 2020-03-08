@@ -39,7 +39,7 @@
 	"mmc0_root=setenv root /dev/mmcblk0p2\0" \
 	"mmc1_root=setenv root /dev/mmcblk1p2\0" \
 	"console=console=ttyPS0,115200 earlyprintk\0" \
-	"baseargs=setenv bootargs ${console} root=${root} rw rootfstype=squashfs rootwait ${optargs}\0" \
+	"baseargs=setenv bootargs ${console} root=${root} rw rootfstype=squashfs rootwait ${optargs} uio_pdrv_genirq.of_id=generic-uio\0" \
 	"loadkernel=load ${devtype} ${devnum} ${kernel_load_address} ${kernel_image}\0" \
 	"loaddtb=load ${devtype} ${devnum} ${devicetree_load_address} ${devicetree_image}\0" \
 	"loadinitrd=load ${devtype} ${devnum} ${ramdisk_load_address} ${ramdisk_image}\0" \
@@ -53,7 +53,7 @@
 	"scanusb=setenv devtype usb && setenv devnum 0 && usb reset && usb start && usb storage && run scandev; \0" \
 	"scanmmc=setenv devtype mmc; setenv devnum 0; run scandev; setenv devnum 1; run scandev;\0" \
 	"emmcboot=setenv devtype mmc; setenv devnum 1; run scandev \0" \
-	"qspiboot=echo QSPI Boot Mode; run scanusb || run emmcboot \0" \
+	"qspiboot=echo QSPI Boot Mode; run sdboot \0" \
 	"sdboot=echo SDCARD Boot Mode; prefix; setenv devtype mmc; run scandev \0" \
 	"scandev=echo [INFO] Scanning ${devtype} ${devnum}...; && " \
 		"if $devtype dev $devnum; then " \
