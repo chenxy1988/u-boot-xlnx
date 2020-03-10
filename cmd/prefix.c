@@ -129,7 +129,7 @@ static int search_prefix()
 		prefix->counter++;
 	}
 
-	sprintf(name,"0:2");
+	sprintf(name,"0:1");
 	env_set("devnum", name);
 
 	memset(name,0x0,sizeof(name));
@@ -141,7 +141,7 @@ static int search_prefix()
 
 
 	memset(name,0x0,sizeof(name));
-	sprintf(name,"/dev/mmcblk0p%d",bank->current+3);
+	sprintf(name,"/dev/mmcblk0p%d",bank->current+2);
 #if 0
         switch ((zynq_slcr_get_boot_mode()) & ZYNQ_BM_MASK) {
         case ZYNQ_BM_QSPI:
